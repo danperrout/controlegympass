@@ -28,3 +28,54 @@ Primeiro, clone o repositório para o seu ambiente local:
 ```bash
 git clone https://github.com/danperrout/controlegympass.git
 cd controlegympass
+
+2. Crie um Ambiente Virtual
+Crie um ambiente virtual para isolar as dependências do projeto:
+
+bash
+Copy
+python -m venv venv
+No Linux/MacOS:
+
+bash
+Copy
+source venv/bin/activate
+No Windows:
+
+bash
+Copy
+venv\Scripts\activate
+3. Instale as Dependências
+Instale as dependências listadas no arquivo requirements.txt:
+
+bash
+Copy
+pip install -r requirements.txt
+4. Configure o Banco de Dados
+O projeto usa SQLite por padrão. Para criar as tabelas no banco de dados, execute as migrações:
+
+bash
+Copy
+python manage.py migrate
+5. Crie um Superusuário
+Crie um superusuário para acessar o painel administrativo do Django:
+
+bash
+Copy
+python manage.py createsuperuser
+Siga as instruções para definir um nome de usuário, email e senha.
+
+6. Execute o Servidor de Desenvolvimento
+Inicie o servidor de desenvolvimento do Django:
+
+bash
+Copy
+python manage.py runserver
+O servidor estará disponível em:
+http://127.0.0.1:8000/
+
+7. Acesse o Painel Administrativo
+Acesse o painel administrativo do Django para gerenciar alunos, aulas e pagamentos:
+http://127.0.0.1:8000/admin/
+
+Use as credenciais do superusuário criado no passo 5.
