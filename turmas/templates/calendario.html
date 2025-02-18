@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% block title %}📅 Calendário de Presença - {{ mes }}/{{ ano }}{% endblock %}
+
+{% block content %}
+<h2 class="text-2xl font-bold">📅 Calendário de Presença - {{ mes }}/{{ ano }}</h2>
+
+<!-- Tabela de Presenças -->
+<div class="overflow-x-auto mt-4">
+    <table class="w-full border-collapse border border-gray-300 bg-white shadow-md rounded-lg">
+        <thead class="bg-gray-200">
+            <tr>
+                <th class="border px-4 py-2 text-left">📆 Dia</th>
+                <th class="border px-4 py-2 text-left">👩‍🎓 Alunos Presentes</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for dia, alunos_presentes in presencas_por_dia.items %}
+            <tr class="border">
+                <td class="border px-4 py-2 font-semibold">{{ dia }}</td>
+                <td class="border px-4 py-2">
+                    {% if alunos_presentes %}
+                    <ul>
+                        {% for aluno in alunos_presentes %}
+                            <li class="present"><span class="text-green-600">{{ aluno }}</span><br></li>
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                <span class="text-red-500">❌ Nenhum aluno presente</span>
+                {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<!-- Botão para Voltar -->
+<div class="mt-6">
+    <a href="{% url 'home' %}" 
+       class="px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-700">
+        ⬅ Voltar ao Início
+    </a>
+</div>
+
+{% endblock %}

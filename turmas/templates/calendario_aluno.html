@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block title %}Presença de {{ aluno.nome }} - {{ mes }}/{{ ano }}{% endblock %}
+
+{% block content %}
+<h2 class="text-2xl font-bold">🗓️ Presença de {{ aluno.nome }} - {{ mes }}/{{ ano }}</h2>
+
+<!-- Tabela de Presença -->
+<div class="overflow-x-auto mt-4">
+    <table class="w-full border-collapse border border-gray-300 bg-white shadow-md rounded-lg">
+        <thead class="bg-gray-200">
+            <tr>
+                <th class="border px-4 py-2 text-left">📆 Dia</th>
+                <th class="border px-4 py-2 text-left">✅ Presente?</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for dia, presente in presencas_por_dia.items %}
+            <tr class="border">
+                <td class="border px-4 py-2">{{ dia }}</td>
+                <td class="border px-4 py-2">
+                    {% if presente %}
+                        <span class="text-green-600 font-semibold">✅ Sim</span>
+                    {% else %}
+                        <span class="text-red-500 font-semibold">❌ Não</span>
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<!-- Botão para Retornar ao Perfil -->
+<div class="mt-6">
+    <a href="{% url 'perfil_aluno' aluno_id=aluno.id %}" 
+       class="px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-700">
+        ⬅ Retornar ao Perfil
+    </a>
+</div>
+
+{% endblock %}

@@ -1,0 +1,15 @@
+<h2>Horários das Turmas</h2>
+<table border="1">
+  <tr>
+    <th>Dia</th>
+    <th>Horário</th>
+    <th>Turma</th>
+  </tr>
+  {% for horario in horarios %}
+  <tr>
+    <td>{{ horario.dia }}</td>
+    <td>{{ horario.horario }}</td>
+    <td>{{ horario.turma }}</td>
+  </tr>
+  {% endfor %}
+</table>

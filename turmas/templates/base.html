@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Sistema Escolar{% endblock %}</title>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- SweetAlert2 (substituindo Toastr.js) -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+</head>
+<body class="bg-gray-100 text-gray-900">
+
+    <nav class="bg-blue-500 p-4">
+        <div class="container mx-auto flex justify-between items-center">
+            <a href="{% url 'home' %}" class="text-white text-xl font-bold">🏫 Escola</a>
+            <div class="space-x-4">
+                <a href="{% url 'registrar_presenca' %}" class="text-white hover:underline">✅ Registrar Presença</a>
+                <a href="{% url 'listar_presencas' %}" class="text-white hover:underline">💰 Situação de Pagamentos</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- SweetAlert2 Notificações -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            {% if messages %}
+                {% for message in messages %}
+                    Swal.fire({
+                        icon: "{% if message.tags == 'success' %}success{% elif message.tags == 'error' %}error{% elif message.tags == 'warning' %}warning{% else %}info{% endif %}",
+                        title: "{{ message }}",
+                        timer: 3000,
+                        showConfirmButton: false
+                    });
+                {% endfor %}
+            {% endif %}
+        });
+    </script>
+
+    <!-- Conteúdo Principal -->
+    <main class="container mx-auto mt-6 p-6 bg-white shadow-md rounded-lg">
+        {% block content %}{% endblock %}
+    </main>
+
+</body>
+</html>

@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+
+{% block title %}Página Inicial{% endblock %}
+
+{% block content %}
+<h2 class="text-2xl font-bold mb-6">📌 Página Inicial</h2>
+
+<!-- Grid de Turmas e Alunos -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+    
+    <!-- Turmas -->
+    <div class="p-6 bg-blue-50 shadow-lg rounded-lg">
+        <h3 class="text-xl font-semibold mb-4">🏫 Turmas</h3>
+        {% if turmas %}
+            <ul class="space-y-2">
+                {% for turma in turmas %}
+                    <li class="flex items-center text-blue-600">
+                        <span class="mr-2">📚</span>
+                        <span>{{ turma.nome }}</span>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p class="text-red-500 flex items-center">
+                <span class="mr-2">❌</span>
+                Nenhuma turma cadastrada.
+            </p>
+        {% endif %}
+    </div>
+
+    <!-- Alunos -->
+    <div class="p-6 bg-green-50 shadow-lg rounded-lg">
+        <h3 class="text-xl font-semibold mb-4">👩‍🎓 Alunos</h3>
+        {% if alunos %}
+            <ul class="space-y-2">
+                {% for aluno in alunos %}
+                    <li class="flex items-center">
+                        <span class="mr-2">👤</span>
+                        <a href="{% url 'perfil_aluno' aluno_id=aluno.id %}" class="text-green-600 hover:underline">
+                            {{ aluno.nome }} - {{ aluno.turma.nome }}
+                        </a>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p class="text-red-500 flex items-center">
+                <span class="mr-2">❌</span>
+                Nenhum aluno cadastrado.
+            </p>
+        {% endif %}
+    </div>
+</div>
+
+<!-- Ações Rápidas -->
+<div class="mt-8">
+    <h3 class="text-xl font-semibold mb-4">⚡ Ações Rápidas</h3>
+    <div class="flex flex-wrap gap-4">
+        <a href="{% url 'registrar_presenca' %}" 
+           class="px-6 py-3 bg-blue-500 text-white rounded-lg hover:bg-blue-700 transition duration-300 flex items-center"
+           onclick="return confirm('Tem certeza que deseja registrar a presença?')">
+            <span class="mr-2">✅</span>
+            Registrar Presença
+        </a>
+        
+        <a href="{% url 'listar_presencas' %}" 
+           class="px-6 py-3 bg-green-500 text-white rounded-lg hover:bg-green-700 transition duration-300 flex items-center">
+            <span class="mr-2">💰</span>
+            Situação de Pagamentos
+        </a>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+{% load custom_filters %}
+
+{% block title %}Perfil do Aluno - {{ aluno.nome }}{% endblock %}
+
+{% block content %}
+<h2 class="text-2xl font-bold mb-6">👤 Perfil do Aluno: {{ aluno.nome }}</h2>
+
+<div class="bg-white p-6 rounded-lg shadow-md">
+    <h3 class="text-xl font-semibold mb-4">📋 Presenças</h3>
+    <div class="overflow-x-auto">
+        {# Agrupa as presenças por mes_group (ano e mês) #}
+        {% regroup presencas|dictsort:"mes_group" by mes_group as meses %}
+        
+        {% for mes in meses %}
+        <div class="mb-6">
+            <h4 class="text-lg font-semibold mb-2">
+                📅 Mês: 
+                {% comment %} Caso queira formatar melhor o mês, pode criar um filtro customizado ou manipular a string. {% endcomment %}
+                {{ mes.grouper }}
+            </h4>
+            <table class="min-w-full bg-white shadow-md rounded-lg">
+                <thead>
+                    <tr class="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
+                        <th class="py-3 px-6 text-left">Data</th>
+                        <th class="py-3 px-6 text-left">Horário</th>
+                        <th class="py-3 px-6 text-left">Presente</th>
+                        <th class="py-3 px-6 text-left">Pago</th>
+                    </tr>
+                </thead>
+                <tbody class="text-gray-600 text-sm font-light">
+                    {% for presenca in mes.list %}
+                    <tr class="border-b border-gray-200 hover:bg-gray-100">
+                        <td class="py-3 px-6 text-left">{{ presenca.data|date:"d/m/Y" }}</td>
+                        <td class="py-3 px-6 text-left">
+                            {{ presenca.horario.dia }} - {{ presenca.horario.horario }} - {{ presenca.horario.turma.nome }}
+                        </td>
+                        <td class="py-3 px-6 text-left">
+                            {% if presenca.presente %}✅{% else %}❌{% endif %}
+                        </td>
+                        <td class="py-3 px-6 text-left">
+                            {% if presenca.pago %}💰{% else %}💸{% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                    
+                    {# Resumo para o mês #}
+                    {% with total_pagos=mes.list|paid_count %}
+                    <tr class="bg-gray-50 font-semibold">
+                        <td class="py-3 px-6 text-left" colspan="3">Total de Pagamentos</td>
+                        <td class="py-3 px-6 text-left">{{ total_pagos }} / 9</td>
+                    </tr>
+                    <tr class="bg-gray-50 font-semibold">
+                        <td class="py-3 px-6 text-left" colspan="3">Faltam Pagar</td>
+                        <td class="py-3 px-6 text-left">{{ 9|subtract:total_pagos }}</td>
+                    </tr>
+                    {% endwith %}
+                    
+                    {% with total_presencas=mes.list|attendance_count %}
+                    <tr class="bg-gray-50 font-semibold">
+                        <td class="py-3 px-6 text-left" colspan="3">Total de Presenças</td>
+                        <td class="py-3 px-6 text-left">{{ total_presencas }}</td>
+                    </tr>
+                    {% endwith %}
+                </tbody>
+            </table>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

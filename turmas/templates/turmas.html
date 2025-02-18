@@ -1,0 +1,9 @@
+<h2>Lista de Turmas</h2>
+<ul>
+  {% for turma in turmas %}
+    <li>{{ turma.nome }} 
+      <a href="{% url 'remover_turma' turma.id %}">❌ Remover</a>
+    </li>
+  {% endfor %}
+</ul>
+<a href="{% url 'adicionar_turma' %}">➕ Adicionar Turma</a>

@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block title %}💰 Situação de Pagamento dos Alunos{% endblock %}
+
+{% block content %}
+<h2 class="text-2xl font-bold">💰 Situação de Pagamento dos Alunos</h2>
+
+<!-- Tabela de Pagamentos -->
+<div class="overflow-x-auto mt-4">
+    <table class="w-full border-collapse border border-gray-300 bg-white shadow-md rounded-lg">
+        <thead class="bg-gray-200">
+            <tr>
+                <th class="border px-4 py-2 text-left">👩‍🎓 Aluno</th>
+                <th class="border px-4 py-2 text-left">📚 Aulas Pagas</th>
+                <th class="border px-4 py-2 text-left">⚠️ Faltando</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for pagamento in pagamentos %}
+            <tr class="border">
+                <td class="border px-4 py-2">{{ pagamento.aluno }}</td>
+                <td class="border px-4 py-2 text-green-600 font-semibold">{{ pagamento.aulas_pagas }}</td>
+                <td class="border px-4 py-2 {% if pagamento.faltando > 0 %}text-red-500{% else %}text-green-600{% endif %} font-semibold">
+                    {{ pagamento.faltando }}
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="3" class="text-center text-gray-500 py-4">❌ Nenhum pagamento registrado</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<!-- Botão para Registrar Pagamento -->
+<div class="mt-6">
+    <a href="{% url 'registrar_pagamento' %}" 
+       class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-700">
+        ➕ Registrar Pagamento
+    </a>
+</div>
+
+{% endblock %}
